@@ -20,6 +20,7 @@ import java.lang.reflect.Type;
 import javax.annotation.Nullable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -27,13 +28,13 @@ public final class NonMatchingConverterFactory extends Converter.Factory {
   public boolean called;
 
   @Override public @Nullable Converter<ResponseBody, ?> responseBodyConverter(
-      Type type, Annotation[] annotations, Retrofit retrofit) {
+          @NotNull Type type, @NotNull Annotation[] annotations, @NotNull Retrofit retrofit) {
     called = true;
     return null;
   }
 
-  @Override public @Nullable Converter<?, RequestBody> requestBodyConverter(Type type,
-      Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+  @Override public @Nullable Converter<?, RequestBody> requestBodyConverter(@NotNull Type type,
+                                                                            @NotNull Annotation[] parameterAnnotations, @NotNull Annotation[] methodAnnotations, @NotNull Retrofit retrofit) {
     called = true;
     return null;
   }

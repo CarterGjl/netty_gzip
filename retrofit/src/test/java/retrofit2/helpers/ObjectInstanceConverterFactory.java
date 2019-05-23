@@ -19,6 +19,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import javax.annotation.Nullable;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -26,12 +27,12 @@ public final class ObjectInstanceConverterFactory extends Converter.Factory {
   public static final Object VALUE = new Object();
 
   @Override public @Nullable Converter<ResponseBody, ?> responseBodyConverter(
-      Type type, Annotation[] annotations, Retrofit retrofit) {
+          @NotNull Type type, @NotNull Annotation[] annotations, @NotNull Retrofit retrofit) {
     if (type != Object.class) {
       return null;
     }
     return new Converter<ResponseBody, Object>() {
-      @Override public Object convert(ResponseBody value) {
+      @Override public Object convert(@NotNull ResponseBody value) {
         return VALUE;
       }
     };

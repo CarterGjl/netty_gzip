@@ -23,13 +23,14 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 import okhttp3.ResponseBody;
 import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
+import org.jetbrains.annotations.NotNull;
 
 @IgnoreJRERequirement // Only added when Optional is available (Java 8+ / Android API 24+).
 final class OptionalConverterFactory extends Converter.Factory {
   static final Converter.Factory INSTANCE = new OptionalConverterFactory();
 
   @Override public @Nullable Converter<ResponseBody, ?> responseBodyConverter(
-      Type type, Annotation[] annotations, Retrofit retrofit) {
+          @NotNull Type type, @NotNull Annotation[] annotations, @NotNull Retrofit retrofit) {
     if (getRawType(type) != Optional.class) {
       return null;
     }
@@ -48,7 +49,7 @@ final class OptionalConverterFactory extends Converter.Factory {
       this.delegate = delegate;
     }
 
-    @Override public Optional<T> convert(ResponseBody value) throws IOException {
+    @Override public Optional<T> convert(@NotNull ResponseBody value) throws IOException {
       return Optional.ofNullable(delegate.convert(value));
     }
   }

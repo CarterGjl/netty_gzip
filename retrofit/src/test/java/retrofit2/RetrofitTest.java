@@ -40,6 +40,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Rule;
 import org.junit.Test;
 import retrofit2.helpers.DelegatingCallAdapterFactory;
@@ -374,8 +375,8 @@ public final class RetrofitTest {
     final AtomicReference<Annotation[]> annotationsRef = new AtomicReference<>();
     class MyConverterFactory extends Converter.Factory {
       @Override
-      public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
-          Retrofit retrofit) {
+      public Converter<ResponseBody, ?> responseBodyConverter(@NotNull Type type, @NotNull Annotation[] annotations,
+                                                              @NotNull Retrofit retrofit) {
         annotationsRef.set(annotations);
         return new ToStringConverterFactory().responseBodyConverter(type, annotations, retrofit);
       }
@@ -397,8 +398,8 @@ public final class RetrofitTest {
 
     class MyConverterFactory extends Converter.Factory {
       @Override
-      public Converter<?, RequestBody> requestBodyConverter(Type type,
-          Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+      public Converter<?, RequestBody> requestBodyConverter(@NotNull Type type,
+                                                            @NotNull Annotation[] parameterAnnotations, @NotNull Annotation[] methodAnnotations, @NotNull Retrofit retrofit) {
         parameterAnnotationsRef.set(parameterAnnotations);
         methodAnnotationsRef.set(methodAnnotations);
         return new ToStringConverterFactory().requestBodyConverter(type, parameterAnnotations,
@@ -424,7 +425,7 @@ public final class RetrofitTest {
         annotationsRef.set(annotations);
 
         return new Converter<Object, String>() {
-          @Override public String convert(Object value) throws IOException {
+          @Override public String convert(@NotNull Object value) throws IOException {
             return String.valueOf(value);
           }
         };

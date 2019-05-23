@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -29,10 +30,10 @@ public class ToStringConverterFactory extends Converter.Factory {
   static final MediaType MEDIA_TYPE = MediaType.get("text/plain");
 
   @Override public @Nullable Converter<ResponseBody, ?> responseBodyConverter(
-      Type type, Annotation[] annotations, Retrofit retrofit) {
+          @NotNull Type type, @NotNull Annotation[] annotations, @NotNull Retrofit retrofit) {
     if (String.class.equals(type)) {
       return new Converter<ResponseBody, String>() {
-        @Override public String convert(ResponseBody value) throws IOException {
+        @Override public String convert(@NotNull ResponseBody value) throws IOException {
           return value.string();
         }
       };
@@ -40,11 +41,11 @@ public class ToStringConverterFactory extends Converter.Factory {
     return null;
   }
 
-  @Override public @Nullable Converter<?, RequestBody> requestBodyConverter(Type type,
-      Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+  @Override public @Nullable Converter<?, RequestBody> requestBodyConverter(@NotNull Type type,
+                                                                            @NotNull Annotation[] parameterAnnotations, @NotNull Annotation[] methodAnnotations, @NotNull Retrofit retrofit) {
     if (String.class.equals(type)) {
       return new Converter<String, RequestBody>() {
-        @Override public RequestBody convert(String value) throws IOException {
+        @Override public RequestBody convert(@NotNull String value) throws IOException {
           return RequestBody.create(MEDIA_TYPE, value);
         }
       };
